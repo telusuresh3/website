@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Editor & VFX Designer Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Three.js CDN for 3D animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark background as fallback */
+            color: #e2e8f0; /* Light text color */
+            overflow: hidden; /* Hide scrollbars if canvas is larger */
+        }
+        #background-canvas {
+            position: fixed; /* Fix canvas to cover the entire viewport */
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1; /* Place it behind other content */
+            display: block;
+        }
+        .content-wrapper {
+            position: relative; /* Ensure content is above the canvas */
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1rem; /* Add padding to ensure content isn't too close to edges */
+            background-color: rgba(26, 32, 44, 0.7); /* Semi-transparent dark overlay for readability */
+        }
+        .video-thumbnail {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.5rem; /* Rounded corners */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .video-thumbnail:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        .video-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .video-thumbnail::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,0.7) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .video-thumbnail:hover::after {
+            opacity: 1;
+        }
+        .video-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem;
+            color: white;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .video-thumbnail:hover .video-title {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Canvas for Three.js background animation -->
+    <canvas id="background-canvas"></canvas>
+
+    <!-- Content Wrapper to layer content above the canvas -->
+    <div class="content-wrapper">
+        <header class="text-center mb-12">
+            <h1 class="text-5xl font-extrabold text-white mb-4 rounded-lg p-2 bg-gradient-to-r from-purple-600 to-blue-600 shadow-lg">
+                Telu Suresh's Portfolio
+            </h1>
+            <p class="text-xl text-gray-300">Video Editor & VFX Designer</p>
+            <p class="text-md text-gray-400 mt-2">Crafting visual stories and bringing imagination to life.</p>
+        </header>
+
+        <main class="w-full max-w-6xl">
+            <section class="mb-12">
+                <h2 class="text-3xl font-bold text-white mb-6 text-center">Featured Work</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Video 1 -->
+                    <a href="https://www.youtube.com/watch?v=bmy--bPoH5g" target="_blank" rel="noopener noreferrer" class="block">
+                        <div class="video-thumbnail bg-gray-800 shadow-lg">
+                            <img src="https://placehold.co/640x360/444444/FFFFFF?text=APSDRFSD Logo Animation" alt="APSDRFSD Logo Animation" onerror="this.onerror=null;this.src='https://www.youtube.com/watch?v=bmy--bPoH5g';">
+                            <div class="video-title">APSDRFSD Logo Animation</div>
+                        </div>
+                    </a>
+
+                    <!-- Video 2 -->
+                    <a href="https://www.youtube.com/watch?v=pn79eVQqRlM" target="_blank" rel="noopener noreferrer" class="block">
+                        <div class="video-thumbnail bg-gray-800 shadow-lg">
+                            <img src="https://placehold.co/640x360/444444/FFFFFF?text=Rajasthan Police Academy Logo Animation" alt="Rajasthan Police Academy Logo Animation" onerror="this.onerror=null;this.src='https://www.youtube.com/watch?v=pn79eVQqRlM?text=Placeholder';">
+                            <div class="video-title">Rajasthan Police Academy Logo Animation</div>
+                        </div>
+                    </a>
+
+                    <!-- Video 3 -->
+                    <a href="https://www.youtube.com/watch?v=8gV-U1UoqOc" target="_blank" rel="noopener noreferrer" class="block">
+                        <div class="video-thumbnail bg-gray-800 shadow-lg">
+                            <img src="https://placehold.co/640x360/555555/FFFFFF?text=Little Stars & She" alt="Video 3 Thumbnail" onerror="this.onerror=null;this.src='https://placehold.co/640x360/555555/FFFFFF?text=Placeholder';">
+                            <div class="video-title">Music Video Color Grade</div>
+                        </div>
+                    </a>
+
+                    <!-- Video 4 -->
+                    <a href="https://www.youtube.com/watch?v=KD0ulsywqXA" target="_blank" rel="noopener noreferrer" class="block">
+                        <div class="video-thumbnail bg-gray-800 shadow-lg">
+                            <img src="https://placehold.co/640x360/666666/FFFFFF?text=Dafne Civils Academy" alt="Video 4 Thumbnail" onerror="this.onerror=null;this.src='https://placehold.co/640x360/666666/FFFFFF?text=Placeholder';">
+                            <div class="video-title">Explainer Animation</div>
+                        </div>
+                    </a>
+
+                    <!-- Video 5 -->
+                    <a href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID_5" target="_blank" rel="noopener noreferrer" class="block">
+                        <div class="video-thumbnail bg-gray-800 shadow-lg">
+                            <img src="https://placehold.co/640x360/777777/FFFFFF?text=Dream Big Achieve Bigger" alt="Video 5 Thumbnail" onerror="this.onerror=null;this.src='https://placehold.co/640x360/777777/FFFFFF?text=Placeholder';">
+                            <div class="video-title">Documentary Sequence</div>
+                        </div>
+                    </a>
+
+                    <!-- Video 6 -->
+                    <a href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID_6" target="_blank" rel="noopener noreferrer" class="block">
+                        <div class="video-thumbnail bg-gray-800 shadow-lg">
+                            <img src="https://placehold.co/640x360/888888/FFFFFF?text=Video+6+Thumbnail" alt="Video 6 Thumbnail" onerror="this.onerror=null;this.src='https://placehold.co/640x360/888888/FFFFFF?text=Placeholder';">
+                            <div class="video-title">Green Screen Composite</div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <section class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-6">About Me</h2>
+                <p class="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                    As a passionate Video Editor and VFX Designer, I specialize in transforming raw footage into compelling visual narratives. With expertise in motion graphics, compositing, and color grading, I strive to create impactful and memorable content that captivates audiences. Let's collaborate to bring your vision to life!
+                </p>
+                <div class="mt-8">
+                    <a href="mailto:your.email@example.com" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        Contact Me
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-12 text-gray-500 text-sm">
+            <p>&copy; 2025 Your Name. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Three.js background animation
+        let scene, camera, renderer, particles, particleMaterial;
+
+        function init() {
+            // Get the canvas element
+            const canvas = document.getElementById('background-canvas');
+
+            // Scene
+            scene = new THREE.Scene();
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true }); // alpha: true for transparent background
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio); // Improve rendering quality on high-DPI screens
+
+            // Particles
+            const particleCount = 1000;
+            const positions = new Float32Array(particleCount * 3); // x, y, z for each particle
+            const colors = new Float32Array(particleCount * 3); // r, g, b for each particle
+
+            // Create random positions and colors for particles
+            for (let i = 0; i < particleCount; i++) {
+                const i3 = i * 3;
+                positions[i3] = (Math.random() - 0.5) * 10; // x
+                positions[i3 + 1] = (Math.random() - 0.5) * 10; // y
+                positions[i3 + 2] = (Math.random() - 0.5) * 10; // z
+
+                // Subtle blue/purple colors
+                colors[i3] = 0.5 + Math.random() * 0.5; // Red
+                colors[i3 + 1] = 0.5 + Math.random() * 0.5; // Green
+                colors[i3 + 2] = 0.8 + Math.random() * 0.2; // Blue
+            }
+
+            const particleGeometry = new THREE.BufferGeometry();
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            // Particle material
+            particleMaterial = new THREE.PointsMaterial({
+                size: 0.02,
+                vertexColors: true, // Use colors from the geometry
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending // For glowing effect
+            });
+
+            particles = new THREE.Points(particleGeometry, particleMaterial);
+            scene.add(particles);
+
+            // Handle window resizing
+            window.addEventListener('resize', onWindowResize, false);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Animate particles
+            particles.rotation.x += 0.0005;
+            particles.rotation.y += 0.0008;
+
+            // Make particles slowly move
+            const positions = particles.geometry.attributes.position.array;
+            for (let i = 0; i < positions.length; i += 3) {
+                positions[i + 1] += 0.0005; // Move particles slowly upwards
+                if (positions[i + 1] > 5) { // Reset if they go too high
+                    positions[i + 1] = -5;
+                }
+            }
+            particles.geometry.attributes.position.needsUpdate = true; // Tell Three.js to update positions
+
+            renderer.render(scene, camera);
+        }
+
+        // Initialize and start animation when the window loads
+        window.onload = function() {
+            init();
+            animate();
+        };
+    </script>
+</body>
+</html>
